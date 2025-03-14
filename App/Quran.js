@@ -8,7 +8,7 @@ const bookmark  = require("./agenda.png");
 const quran  = require("./quran.png");
 const photo = require("./quran1.png");
 
-const Quran = () => {
+const Quran = (props) => {
   return (
     <View style={styles.mainContainer}>
       <View style={styles.topBar}>
@@ -26,7 +26,7 @@ const Quran = () => {
             <Text style={styles.text}>Read Quran</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.buttons}>
+          <TouchableOpacity style={styles.buttons} onPress={()=>props.navigation.navigate('Surahs')}>
            <Image source={img} style={styles.image}/>
             <Text style={styles.text}>Search</Text>
           </TouchableOpacity>
