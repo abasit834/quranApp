@@ -1,34 +1,17 @@
-import React, { useState } from "react";
-import { View, FlatList, StyleSheet, Text, ActivityIndicator, RefreshControl } from "react-native";
+import React from "react";
+import { View, FlatList, StyleSheet, Text, ActivityIndicator } from "react-native";
 import useGETAPI from "./CustomHooks/useGetAPI";
 
 const ParaList = () => {
-  const { data, loading, fetchData } = useGETAPI("https://api.alquran.cloud/v1/surah");
-  const [refreshing, setRefreshing] = useState(false);
-  const [page, setPage] = useState(1);
-  const [surahs, setSurahs] = useState([]);
-
-  // Pull-to-Refresh Function
-  const onRefresh = async () => {
-    setRefreshing(true);
-    await fetchData();  // Re-fetch data
-    setRefreshing(false);
-  };
-
-  // Infinite Scroll Function
-  const loadMoreData = () => {
-    if (data.length >= 114) return; // Stop when all Surahs are loaded
-    setPage(page + 1);
-    setSurahs([...surahs, ...data.slice(0, 10)]); // Simulate pagination
-  };
+  const {data,loading} = useGETAPI("https://api.alquran.cloud/v1/surah");
 
   return (
     <View style={styles.container}>
-      {loading && page === 1 ? (
+      {loading ? (
         <ActivityIndicator size="large" color="green" />
       ) : (
         <FlatList
-          data={surahs.length > 0 ? surahs : data}
+          data={data}
           renderItem={({ item }) => (
             <View style={styles.item}>
               <Text style={styles.text}>{item.number}</Text>
@@ -36,12 +19,6 @@ const ParaList = () => {
             </View>
           )}
           keyExtractor={(item) => item.number.toString()}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={["green"]} />
-          }
-          onEndReached={loadMoreData}
-          onEndReachedThreshold={0.5} // Load more when 50% of the list is visible
-          ListFooterComponent={() => (data.length >= 114 ? null : <ActivityIndicator size="small" color="green" />)}
         />
       )}
     </View>
