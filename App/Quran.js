@@ -21,7 +21,7 @@ const Quran = (props) => {
         <Text style={styles.heading}>Features</Text>
 
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.buttons}>
+          <TouchableOpacity style={styles.buttons} onPress={()=>props.navigation.navigate('Recitation')}>
            <Image source={quran} style={styles.image}/>
             <Text style={styles.text}>Read Quran</Text>
           </TouchableOpacity>
